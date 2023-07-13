@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .login {
+            margin-top: 100px;
+        }
+
+        .login h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .input-frame {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .input-frame input,
+        .input-frame select {
+            width: 250px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            border-bottom: 1px solid white;
+        }
+
+        .input-frame input::placeholder,
+        .input-frame select::placeholder {
+            color: white;
+        }
+
+        .input-frame button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .prediction {
+            margin-top: 20px;
+        }
+
+        .prediction-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h1>Exercise Intensity</h1>
+
+        <!-- Main input for receiving query to our ML -->
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="input-frame">
+                <input type="text" name="calories" placeholder="Enter calories burned" required="required"><br>
+                <input type="text" name="age" placeholder="Enter age" required="required"><br>
+                <input type="text" name="dream_weight" placeholder="Enter dream weight (in kgs)" required="required"><br>
+                <input type="text" name="actual_weight" placeholder="Enter actual weight (in kgs)" required="required"><br>
+                <input type="text" name="duration" placeholder="Enter duration (in minutes)" required="required"><br>
+                <input type="text" name="heart_rate" placeholder="Enter heart rate (beats per min)" required="required"><br>
+                <input type="text" name="height" placeholder="Enter height (in meters)" required="required"><br>
+                <div class="form-group">
+                    <select name="gender" required>
+                        <option value="" selected disabled hidden>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <select name="weather_conditions" required>
+                        <option value="" selected disabled hidden>Weather Conditions</option>
+                        <option value="Rainy">Rainy</option>
+                        <option value="Sunny">Sunny</option>
+                        <option value="Cloudy">Cloudy</option>
+                    </select>
+                </div>
+                
+                
+                <button type="submit">Recommend</button>
+            </div>
+        </form>
+
+        {% if prediction %}
+        <div class="prediction">
+            <p class="prediction-text">Recommended Exercise Intensity: {{ prediction.intensity }}</p>
+            <p class="prediction-text">Intensity Description: {{ prediction.description }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
